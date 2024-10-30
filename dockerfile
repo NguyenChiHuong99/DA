@@ -6,8 +6,7 @@ FROM node:16 AS build
 WORKDIR DA/admin/
 
 # Copy package.json và package-lock.json (nếu có)
-COPY package.json .
-COPY package-lock.json .
+COPY package*.json ./
 
 # Cài đặt các dependency
 RUN npm install 
