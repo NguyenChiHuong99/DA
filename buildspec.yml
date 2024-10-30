@@ -1,8 +1,7 @@
 version: 0.2
 
 phases:
-  install:
-     pre_build:
+  pre_build:
     commands:
       - echo Logging in to Amazon ECR....
       - aws --version
@@ -11,19 +10,17 @@ phases:
       - # Replace with this to your repository URI
       - REPOSITORY_URI=557690608241.dkr.ecr.ap-southeast-1.amazonaws.com/da-demo-ecr
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
-      - echo "Installing dependencies..." 
-      - npm install
   build:
     commands:
-      - cd DA
-      - echo "Building Docker image..."
-      - docker build -t $REPOSITORY_URI:latest  .
-      - docker push $REPOSITORY_URI:latest
-
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      - echo "Build completed successfully!"
+      - echo Build completed on `date`
+      - echo Pushing Docker image to ECR...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
 artifacts:
-  files:
-    - '**/*'
-  base-directory: ../DA
+  files: []
