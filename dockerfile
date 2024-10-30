@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt các dependency
-RUN npm install
+RUN npm install --only=development
 
 # Copy toàn bộ mã nguồn của bạn vào container
 COPY . .
