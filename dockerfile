@@ -3,16 +3,16 @@
 FROM node:16 AS build
 
 # Thiết lập thư mục làm việc
-WORKDIR DA/admin/
+WORKDIR /app
 
 # Copy package.json và package-lock.json (nếu có)
-COPY package*.json ./
+COPY /DA/admin/package*.json ./
 
 # Cài đặt các dependency
 RUN npm install 
 
 # Copy toàn bộ mã nguồn của bạn vào container
-COPY . .
+COPY /DA/admin ./
 
 # Build (nếu cần)
  RUN npm run build
