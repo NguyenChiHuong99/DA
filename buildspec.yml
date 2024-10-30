@@ -1,26 +1,30 @@
 version: 0.2
+
+env:
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
+    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
+    DOCKER_REGISTRY_URL: /myapp/docker-registry/url
 phases:
+  install:
+    runtime-versions:
+      python: 3.11
   pre_build:
     commands:
-      #- echo Logging in to Amazon ECR....
-      - aws --version
-      #- $(aws ecr get-login --region ap-south-1 --no-include-email)
-      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 557690608241.dkr.ecr.ap-southeast-1.amazonaws.com
-      - # Replace with this to your repository URI
-      - REPOSITORY_URI=557690608241.dkr.ecr.ap-southeast-1.amazonaws.com/da-demo-ecr
-      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo "Installing dependencies..."
+      - pip install -r DA
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t "$REPOSITORY_URI:latest" .
-      - docker tag "$REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG"
+      - echo "Running tests..."
+      - cd DA
+      - echo "Building Docker image..."
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME:latest" .
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME:latest"
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing Docker image to ECR...
-      - docker push "$REPOSITORY_URI:latest"
-      - docker push "$REPOSITORY_URI:$IMAGE_TAG"
+      - echo "Build completed successfully!"
 artifacts:
-  files: []
-   
+  files:
+    - '**/*'
+  base-directory: ../DA
