@@ -12,7 +12,7 @@ COPY /DA/admin/package*.json ./
 RUN npm install 
 
 # Copy toàn bộ mã nguồn của bạn vào container
-COPY /nhom6_AWS/ .
+COPY ./ .
 
 # Build (nếu cần)
  RUN npm run build
