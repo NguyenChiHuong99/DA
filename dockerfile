@@ -3,7 +3,7 @@
 FROM node:16 AS build
 
 # Thiết lập thư mục làm việc
-WORKDIR /app
+WORKDIR DA/admin/
 
 # Copy package.json và package-lock.json (nếu có)
 COPY package.json package-lock.json 
@@ -15,7 +15,7 @@ RUN npm install
 COPY . .
 
 # Build (nếu cần)
-# RUN npm run build
+ RUN npm run build
 
 # Cổng mà app của bạn sẽ chạy
 EXPOSE 3000
