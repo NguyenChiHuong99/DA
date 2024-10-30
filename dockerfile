@@ -9,13 +9,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Cài đặt các dependency
-RUN npm install --only=development
+RUN npm install 
 
 # Copy toàn bộ mã nguồn của bạn vào container
 COPY . .
 
 # Build (nếu cần)
-RUN npm run build
+# RUN npm run build
 
 # Cổng mà app của bạn sẽ chạy
 EXPOSE 3000
