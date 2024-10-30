@@ -15,7 +15,7 @@ RUN npm install
 COPY ./ .
 
 # Build (nếu cần)
- RUN npm run build
+# RUN npm run build
 
 # Cổng mà app của bạn sẽ chạy
 EXPOSE 3000
