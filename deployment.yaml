@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: da-demo-ecr
-          image: 557690608241.dkr.ecr.ap-southeast-1.amazonaws.com/da-demo-ecr:1.1
+          image: 557690608241.dkr.ecr.ap-southeast-1.amazonaws.com/da-demo-ecr
           ports:
             - containerPort: 80
