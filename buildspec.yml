@@ -37,7 +37,7 @@ phases:
       - kubectl apply -f ./deployment.yaml
       - echo "All done!!!! Kubernetes changes applied"
       # Create Artifacts which we can use if we want to continue our pipeline for other stages
-      - printf '[{"name":"deployment.yaml","imageUrl":"%s"}]' $REPOSITORY_URL:$TAG > build.json
+      - printf '[{"name":"deployment.yaml","imageUrl":"%s"}]' $REPOSITORY_URL > build.json
 artifacts:
   files:
     - build.json
