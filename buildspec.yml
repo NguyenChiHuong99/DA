@@ -5,7 +5,7 @@ phases:
     commands:
       # Updating Docker Image tag in your Kubernetes Deployment Manifest
       - echo "Update Image tag in kubernetes"
-      - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URL:$TAG"'@' ./deployment.yaml
+      - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URL" ./deployment.yaml
       - echo Logging in to Amazon ECR....
       - aws --version
       #- $(aws ecr get-login --region ap-south-1 --no-include-email)
@@ -17,14 +17,14 @@ phases:
       # Building Docker Image
       - echo "Docker build started on `date`"
       - echo "Building the Docker image..."
-      - docker build --tag $REPOSITORY_URL:$TAG .
+      - docker build --tag $REPOSITORY_URL .
   post_build:
     commands:
       # Push Docker Image to ECR Repository
       - echo "Docker build completed on `date`"
       - echo "Pushing the Docker image to ECR Repository"
-      - docker push $REPOSITORY_URL:$TAG
-      - echo "Docker Push to ECR Repository Completed -  $REPOSITORY_URL:$TAG"
+      - docker push $REPOSITORY_URL
+      - echo "Docker Push to ECR Repository Completed -  $REPOSITORY_URL"
       # Get AWS Credential using STS Assume Role for kubectl
       - echo "Setting Environment Variables related to AWS CLI for Kube Config Setup"
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_ROLE_ARN --role-session-name eks-codebuild --duration-seconds 900)
