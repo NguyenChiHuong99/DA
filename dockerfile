@@ -1,6 +1,6 @@
 
 # Sử dụng node image chính thức
-FROM node:14 AS build
+FROM node:16 AS build
 
 # Thiết lập thư mục làm việc
 WORKDIR /app
